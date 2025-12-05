@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard Recrutador — Talent Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#0A2540',
+            gold: '#D4AF37',
+            silver: '#F3F4F6',
+            slate: '#1E293B'
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          boxShadow: {
+            glow: '0 10px 30px rgba(0,0,0,0.1)',
+            card: '0 8px 24px rgba(10,37,64,0.08)',
+            hover: '0 12px 40px rgba(10,37,64,0.12)',
+            inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)'
+          }
+        }
+      }
+    }
+  </script>
+  <script>
+    // Função para abrir modal de agendamento
+    function openScheduleModal(candidateName) {
+      document.getElementById('candidate-name-modal').textContent = candidateName;
+      document.getElementById('schedule-modal').classList.remove('hidden');
+      document.getElementById('ai-schedule-response').innerHTML = '';
+      document.getElementById('availability-input').value = '';
+    }
+
+    // Função para fechar modal
+    function closeScheduleModal() {
+      document.getElementById('schedule-modal').classList.add('hidden');
+    }
+
+    // Função para enviar disponibilidade à IA
+    function sendToAI() {
+      const availability = document.getElementById('availability-input').value;
+      const candidateName = document.getElementById('candidate-name-modal').textContent;
+      const responseDiv = document.getElementById('ai-schedule-response');
+
+      if (!availability.trim()) {
+        responseDiv.innerHTML = `
+          <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg">
+            <p class="text-sm text-yellow-800">
+              <strong>⚠️ Atenção:</strong> Por favor, informe suas datas e horários disponíveis.
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      // Simular processamento
+      responseDiv.innerHTML = `
+        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg animate-pulse">
+          <p class="text-sm text-blue-800">
+            <strong>🤖 Processando...</strong> A IA está verificando a melhor data e enviando convite...
+          </p>
+        </div>
+      `;
+
+      // Simular resposta após 2 segundos
+      setTimeout(() => {
+        responseDiv.innerHTML = `
+          <div class="bg-white border-2 border-green-500 p-6 rounded-2xl shadow-card">
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="font-bold text-green-800 text-lg mb-3">✅ Entrevista Agendada com Sucesso!</h4>
+                <div class="space-y-3 text-sm">
+                  <div class="bg-green-50 p-4 rounded-lg">
+                    <p class="font-semibold text-green-800 mb-2">📅 Detalhes do Agendamento:</p>
+                    <ul class="space-y-1 text-green-700">
+                      <li><strong>Candidato:</strong> ${candidateName}</li>
+                      <li><strong>Data:</strong> 11 de novembro de 2024</li>
+                      <li><strong>Horário:</strong> 10:00 - 11:00</li>
+                      <li><strong>Formato:</strong> Videochamada (Google Meet)</li>
+                      <li><strong>Status:</strong> Convite enviado</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="bg-blue-50 p-4 rounded-lg">
+                    <p class="font-semibold text-blue-800 mb-2">📧 Notificações Enviadas:</p>
+                    <ul class="list-disc list-inside space-y-1 text-blue-700 text-xs">
+                      <li>Convite enviado para ${candidateName} (candidato@email.com)</li>
+                      <li>Notificação enviada para Maria Silva (gestora)</li>
+                      <li>Link da reunião gerado automaticamente</li>
+                      <li>Lembrete programado para 1 dia antes</li>
+                    </ul>
+                  </div>
+
+                  <div class="bg-gold/10 p-4 rounded-lg border border-gold/30">
+                    <p class="font-semibold text-brand mb-2">💡 Sugestões da IA para a Entrevista:</p>
+                    <ul class="list-disc list-inside space-y-1 text-slate text-xs">
+                      <li>Revisar perfil técnico em React e Node.js</li>
+                      <li>Preparar perguntas sobre projetos de microserviços</li>
+                      <li>Avaliar fit cultural e soft skills de liderança</li>
+                      <li>Duração recomendada: 60 minutos</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="mt-4 flex gap-3">
+                  <button onclick="closeScheduleModal()" class="flex-1 bg-green-500 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-green-600 transition">
+                    ✓ Confirmar e Fechar
+                  </button>
+                  <button class="px-4 border-2 border-gray-300 text-gray-600 font-semibold py-2.5 rounded-lg hover:border-gray-400 transition">
+                    📋 Copiar Detalhes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }, 2000);
+    }
+
+    // Função para mostrar detalhes da vaga
+    function showJobDetails(jobTitle) {
+      alert('Visualizando detalhes da vaga: ' + jobTitle + '\n\n(Funcionalidade completa será implementada com o backend)');
+    }
+
+    // Função para inicializar o gráfico de métricas
+    function initRecruitmentChart() {
+      const ctx = document.getElementById('recruitmentChart');
+      if (!ctx) return;
+
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+          datasets: [{
+            label: 'Vagas Preenchidas',
+            data: [8, 12, 10, 15, 18, 14, 20, 22, 19, 25, 23, 28],
+            borderColor: '#D4AF37',
+            backgroundColor: 'rgba(212, 175, 55, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#D4AF37',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            pointHoverBackgroundColor: '#D4AF37',
+            pointHoverBorderColor: '#fff',
+            pointHoverBorderWidth: 3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          aspectRatio: 2,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              labels: {
+                color: '#1E293B',
+                font: {
+                  family: 'Inter',
+                  size: 12,
+                  weight: '600'
+                },
+                padding: 15,
+                usePointStyle: true,
+                pointStyle: 'circle'
+              }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(10, 37, 64, 0.95)',
+              titleColor: '#D4AF37',
+              bodyColor: '#fff',
+              titleFont: {
+                family: 'Inter',
+                size: 14,
+                weight: '700'
+              },
+              bodyFont: {
+                family: 'Inter',
+                size: 13
+              },
+              padding: 12,
+              cornerRadius: 8,
+              displayColors: false,
+              callbacks: {
+                label: function (context) {
+                  return 'Vagas: ' + context.parsed.y;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: 'rgba(0, 0, 0, 0.05)',
+                drawBorder: false
+              },
+              ticks: {
+                color: '#64748B',
+                font: {
+                  family: 'Inter',
+                  size: 11,
+                  weight: '500'
+                },
+                padding: 8
+              }
+            },
+            x: {
+              grid: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                color: '#64748B',
+                font: {
+                  family: 'Inter',
+                  size: 11,
+                  weight: '500'
+                },
+                padding: 8
+              }
+            }
+          },
+          interaction: {
+            intersect: false,
+            mode: 'index'
+          }
+        }
+      });
+    }
+
+    // Inicializar gráfico quando o DOM estiver carregado
+    document.addEventListener('DOMContentLoaded', initRecruitmentChart);
+  </script>
+</head>
+
+<body class="bg-silver text-slate font-sans antialiased">
+  <!-- HEADER -->
+  <header class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-b border-gray-200 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center h-16 px-6">
+      <div class="flex items-center gap-3">
+        <div
+          class="w-10 h-10 bg-gradient-to-r from-gold to-yellow-400 rounded-lg flex items-center justify-center shadow-glow">
+          <span class="font-bold text-brand">TP</span>
+        </div>
+        <div>
+          <h1 class="font-semibold text-brand leading-tight">Talent Portal</h1>
+        </div>
+      </div>
+      <nav class="hidden md:flex items-center gap-6 text-sm text-gray-600">
+        <a href="index.html" class="hover:text-brand transition">Início</a>
+        <a href="#dashboard" class="text-brand font-semibold">Dashboard</a>
+        <a href="#vagas" class="hover:text-brand transition">Vagas</a>
+        <a href="#candidatos" class="hover:text-brand transition">Candidatos</a>
+        <div class="flex items-center gap-3 ml-3 pl-3 border-l border-gray-300">
+          <div class="w-8 h-8 bg-brand rounded-full flex items-center justify-center">
+            <span class="text-white text-xs font-bold">AC</span>
+          </div>
+          <div class="text-left">
+            <p class="text-xs font-semibold text-brand">Ana Costa</p>
+            <p class="text-xs text-gray-500">Recrutadora Sênior</p>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- WELCOME SECTION -->
+  <section class="pt-24 pb-8 px-6 bg-gradient-to-b from-white to-silver">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-bold text-brand mb-2">Bem-vindo, Ana Costa</h2>
+          <p class="text-lg text-gray-600">Gerencie as vagas e entrevistas com inteligência artificial corporativa</p>
+        </div>
+        <div class="flex gap-4">
+          <div class="bg-white rounded-2xl px-6 py-4 shadow-card">
+            <div class="text-center">
+              <p class="text-2xl font-bold text-brand">5</p>
+              <p class="text-xs text-gray-500 mt-1">Entrevistas Agendadas</p>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl px-6 py-4 shadow-card">
+            <div class="text-center">
+              <p class="text-2xl font-bold text-brand">3</p>
+              <p class="text-xs text-gray-500 mt-1">Vagas Abertas</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS CARDS -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+        <div class="bg-white rounded-2xl p-6 shadow-card hover:shadow-hover transition">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Vagas Ativas</p>
+              <p class="text-3xl font-bold text-brand mt-1">8</p>
+            </div>
+            <div class="w-12 h-12 bg-brand/10 rounded-xl flex items-center justify-center">
+              <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
+                </path>
+              </svg>
+            </div>
+          </div>
+          <p class="text-xs text-green-600 font-medium">↑ +3 esta semana</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 shadow-card hover:shadow-hover transition">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Candidatos Novos</p>
+              <p class="text-3xl font-bold text-brand mt-1">24</p>
+            </div>
+            <div class="w-12 h-12 bg-gold/10 rounded-xl flex items-center justify-center">
+              <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
+                </path>
+              </svg>
+            </div>
+          </div>
+          <p class="text-xs text-green-600 font-medium">↑ +8 hoje</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 shadow-card hover:shadow-hover transition">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Em Entrevista</p>
+              <p class="text-3xl font-bold text-brand mt-1">12</p>
+            </div>
+            <div class="w-12 h-12 bg-yellow-50 rounded-xl flex items-center justify-center">
+              <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+          </div>
+          <p class="text-xs text-blue-600 font-medium">5 agendadas</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 shadow-card hover:shadow-hover transition">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Taxa de Conversão</p>
+              <p class="text-3xl font-bold text-brand mt-1">68<span class="text-xl">%</span></p>
+            </div>
+            <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center">
+              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+          </div>
+          <p class="text-xs text-green-600 font-medium">↑ +12% vs mês anterior</p>
+        </div>
+      </div>
+
+      <!-- VAGAS EM ANDAMENTO -->
+      <div class="mb-12">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-2xl font-bold text-brand">Vagas em Andamento</h3>
+          <select
+            class="text-sm border-2 border-gray-200 rounded-lg px-4 py-2 font-medium focus:ring-2 focus:ring-gold focus:border-gold">
+            <option>Todas as vagas</option>
+            <option>Em análise</option>
+            <option>Em entrevista</option>
+            <option>Finalizadas</option>
+          </select>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Vaga 1 -->
+          <div class="bg-white rounded-2xl p-6 shadow-card hover:shadow-hover transition">
+            <h3 class="text-lg font-semibold text-brand mb-1">Analista de Dados Sênior</h3>
+            <p class="text-sm text-gray-600 mb-3">Departamento de Tecnologia</p>
+            <p class="text-xs text-gray-500 mb-3">Gestor: Maria Silva</p>
+            <span class="inline-block bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">Em
+              andamento</span>
+            <div class="space-y-2 mb-4 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-500">Candidatos:</span>
+                <span class="font-semibold text-brand">15</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Entrevistas:</span>
+                <span class="font-semibold text-brand">3 agendadas</span>
+              </div>
+            </div>
+            <button onclick="showJobDetails('Analista de Dados Sênior')"
+              class="w-full bg-gold text-brand px-4 py-2.5 rounded-lg text-sm font-semibold hover:brightness-110 shadow-card hover:shadow-hover transition">
+              Ver Detalhes
+            </button>
+          </div>
+
+          <!-- Vaga 2 -->
+          <div class="bg-white rounded-2xl p-6 shadow-card hover:shadow-hover transition">
+            <h3 class="text-lg font-semibold text-brand mb-1">Desenvolvedor Full Stack</h3>
+            <p class="text-sm text-gray-600 mb-3">Departamento de Produto</p>
+            <p class="text-xs text-gray-500 mb-3">Gestor: João Silva</p>
+            <span class="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">Em
+              entrevista</span>
+            <div class="space-y-2 mb-4 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-500">Candidatos:</span>
+                <span class="font-semibold text-brand">22</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Entrevistas:</span>
+                <span class="font-semibold text-brand">5 realizadas</span>
+              </div>
+            </div>
+            <button onclick="showJobDetails('Desenvolvedor Full Stack')"
+              class="w-full bg-gold text-brand px-4 py-2.5 rounded-lg text-sm font-semibold hover:brightness-110 shadow-card hover:shadow-hover transition">
+              Ver Detalhes
+            </button>
+          </div>
+
+          <!-- Vaga 3 -->
+          <div class="bg-white rounded-2xl p-6 shadow-card hover:shadow-hover transition">
+            <h3 class="text-lg font-semibold text-brand mb-1">DevOps Engineer</h3>
+            <p class="text-sm text-gray-600 mb-3">Departamento de Infraestrutura</p>
+            <p class="text-xs text-gray-500 mb-3">Gestor: Carlos Mendes</p>
+            <span
+              class="inline-block bg-yellow-100 text-yellow-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">Em
+              análise</span>
+            <div class="space-y-2 mb-4 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-500">Candidatos:</span>
+                <span class="font-semibold text-brand">8</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Entrevistas:</span>
+                <span class="font-semibold text-brand">0 agendadas</span>
+              </div>
+            </div>
+            <button onclick="showJobDetails('DevOps Engineer')"
+              class="w-full bg-gold text-brand px-4 py-2.5 rounded-lg text-sm font-semibold hover:brightness-110 shadow-card hover:shadow-hover transition">
+              Ver Detalhes
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CANDIDATOS RECOMENDADOS PELA IA -->
+      <div class="bg-white rounded-2xl shadow-card mb-12">
+        <div class="p-8 border-b border-gray-200">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-2xl font-bold text-brand flex items-center gap-3">
+                <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+                  </path>
+                </svg>
+                Top 5 Candidatos — Analista de Dados
+              </h3>
+              <p class="text-sm text-gray-600 mt-2">Candidatos mais alinhados ao perfil da vaga, selecionados pela IA
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-8">
+          <ul class="divide-y divide-gray-200">
+            <!-- Candidato 1 -->
+            <li class="py-5 flex justify-between items-center hover:bg-silver/50 px-4 -mx-4 rounded-lg transition">
+              <div class="flex items-center gap-4 flex-1">
+                <div class="w-12 h-12 bg-brand rounded-full flex items-center justify-center flex-shrink-0">
+                  <span class="text-white font-bold">JR</span>
+                </div>
+                <div class="flex-1">
+                  <p class="font-semibold text-brand text-lg">João Ribeiro</p>
+                  <p class="text-sm text-gray-600 mb-2">5 anos exp. • Python, SQL, Tableau</p>
+                  <div class="flex items-center gap-2">
+                    <div class="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
+                      <div class="bg-green-500 h-full rounded-full" style="width: 92%"></div>
+                    </div>
+                    <span class="text-sm font-bold text-green-600">92%</span>
+                  </div>
+                </div>
+              </div>
+              <button onclick="openScheduleModal('João Ribeiro')"
+                class="ml-4 bg-brand text-white text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-opacity-90 shadow-card hover:shadow-hover transition whitespace-nowrap">
+                Agendar Entrevista
+              </button>
+            </li>
+
+            <!-- Candidato 2 -->
+            <li class="py-5 flex justify-between items-center hover:bg-silver/50 px-4 -mx-4 rounded-lg transition">
+              <div class="flex items-center gap-4 flex-1">
+                <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center flex-shrink-0">
+                  <span class="text-brand font-bold">MS</span>
+                </div>
+                <div class="flex-1">
+                  <p class="font-semibold text-brand text-lg">Maria Santos</p>
+                  <p class="text-sm text-gray-600 mb-2">7 anos exp. • R, Python, Power BI</p>
+                  <div class="flex items-center gap-2">
+                    <div class="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
+                      <div class="bg-green-500 h-full rounded-full" style="width: 89%"></div>
+                    </div>
+                    <span class="text-sm font-bold text-green-600">89%</span>
+                  </div>
+                </div>
+              </div>
+              <button onclick="openScheduleModal('Maria Santos')"
+                class="ml-4 bg-brand text-white text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-opacity-90 shadow-card hover:shadow-hover transition whitespace-nowrap">
+                Agendar Entrevista
+              </button>
+            </li>
+
+            <!-- Candidato 3 -->
+            <li class="py-5 flex justify-between items-center hover:bg-silver/50 px-4 -mx-4 rounded-lg transition">
+              <div class="flex items-center gap-4 flex-1">
+                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span class="text-white font-bold">CA</span>
+                </div>
+                <div class="flex-1">
+                  <p class="font-semibold text-brand text-lg">Carlos Almeida</p>
+                  <p class="text-sm text-gray-600 mb-2">4 anos exp. • SQL, Excel, Python</p>
+                  <div class="flex items-center gap-2">
+                    <div class="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
+                      <div class="bg-yellow-500 h-full rounded-full" style="width: 85%"></div>
+                    </div>
+                    <span class="text-sm font-bold text-yellow-600">85%</span>
+                  </div>
+                </div>
+              </div>
+              <button onclick="openScheduleModal('Carlos Almeida')"
+                class="ml-4 bg-brand text-white text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-opacity-90 shadow-card hover:shadow-hover transition whitespace-nowrap">
+                Agendar Entrevista
+              </button>
+            </li>
+
+            <!-- Candidato 4 -->
+            <li class="py-5 flex justify-between items-center hover:bg-silver/50 px-4 -mx-4 rounded-lg transition">
+              <div class="flex items-center gap-4 flex-1">
+                <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span class="text-white font-bold">AF</span>
+                </div>
+                <div class="flex-1">
+                  <p class="font-semibold text-brand text-lg">Ana Ferreira</p>
+                  <p class="text-sm text-gray-600 mb-2">6 anos exp. • Python, Pandas, Spark</p>
+                  <div class="flex items-center gap-2">
+                    <div class="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
+                      <div class="bg-yellow-500 h-full rounded-full" style="width: 82%"></div>
+                    </div>
+                    <span class="text-sm font-bold text-yellow-600">82%</span>
+                  </div>
+                </div>
+              </div>
+              <button onclick="openScheduleModal('Ana Ferreira')"
+                class="ml-4 bg-brand text-white text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-opacity-90 shadow-card hover:shadow-hover transition whitespace-nowrap">
+                Agendar Entrevista
+              </button>
+            </li>
+
+            <!-- Candidato 5 -->
+            <li class="py-5 flex justify-between items-center hover:bg-silver/50 px-4 -mx-4 rounded-lg transition">
+              <div class="flex items-center gap-4 flex-1">
+                <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span class="text-white font-bold">RL</span>
+                </div>
+                <div class="flex-1">
+                  <p class="font-semibold text-brand text-lg">Rafael Lima</p>
+                  <p class="text-sm text-gray-600 mb-2">3 anos exp. • Python, SQL, Looker</p>
+                  <div class="flex items-center gap-2">
+                    <div class="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
+                      <div class="bg-yellow-500 h-full rounded-full" style="width: 78%"></div>
+                    </div>
+                    <span class="text-sm font-bold text-yellow-600">78%</span>
+                  </div>
+                </div>
+              </div>
+              <button onclick="openScheduleModal('Rafael Lima')"
+                class="ml-4 bg-brand text-white text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-opacity-90 shadow-card hover:shadow-hover transition whitespace-nowrap">
+                Agendar Entrevista
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- PAINEL DE MÉTRICAS -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <!-- Métricas de Recrutamento -->
+        <div class="bg-white rounded-2xl p-8 shadow-card hover:shadow-hover transition">
+          <h4 class="text-xl font-bold text-brand mb-6 flex items-center gap-2">
+            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+              </path>
+            </svg>
+            Métricas de Recrutamento
+          </h4>
+
+          <div class="h-64 bg-gradient-to-br from-gold/20 via-brand/10 to-silver rounded-2xl p-4 shadow-inner mb-6">
+            <canvas id="recruitmentChart"></canvas>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-green-50 p-4 rounded-xl border border-green-200">
+              <p class="text-2xl font-bold text-green-700">12</p>
+              <p class="text-xs text-green-600 mt-1">Vagas Preenchidas</p>
+            </div>
+            <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
+              <p class="text-2xl font-bold text-blue-700">23d</p>
+              <p class="text-xs text-blue-600 mt-1">Tempo Médio</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Taxa de Sucesso por Área -->
+        <div class="bg-white rounded-2xl p-8 shadow-card hover:shadow-hover transition">
+          <h4 class="text-xl font-bold text-brand mb-6 flex items-center gap-2">
+            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+            </svg>
+            Taxa de Sucesso por Área
+          </h4>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Tecnologia</span>
+                <span class="text-sm font-bold text-brand">85%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div class="bg-brand h-full rounded-full" style="width: 85%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Produto</span>
+                <span class="text-sm font-bold text-brand">78%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div class="bg-gold h-full rounded-full" style="width: 78%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Marketing</span>
+                <span class="text-sm font-bold text-brand">72%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div class="bg-green-500 h-full rounded-full" style="width: 72%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Vendas</span>
+                <span class="text-sm font-bold text-brand">68%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div class="bg-yellow-500 h-full rounded-full" style="width: 68%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Financeiro</span>
+                <span class="text-sm font-bold text-brand">91%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div class="bg-purple-500 h-full rounded-full" style="width: 91%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 p-4 bg-gold/10 rounded-xl border border-gold/30">
+            <p class="text-xs text-brand">
+              <strong>💡 Insight:</strong> Área de Financeiro apresenta a maior taxa de conversão. Considere aplicar as
+              melhores práticas dessa área nas demais.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL DE AGENDAMENTO -->
+  <div id="schedule-modal"
+    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div class="p-8 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+          <h3 class="text-2xl font-bold text-brand flex items-center gap-3">
+            <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            Assistente de Agendamento com IA
+          </h3>
+          <button onclick="closeScheduleModal()" class="text-gray-400 hover:text-gray-600 transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="p-8 space-y-6">
+        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg">
+          <p class="text-sm text-blue-800">
+            <strong>🤖 IA:</strong> Quais são as melhores datas e horários disponíveis para entrevistar <strong
+              id="candidate-name-modal"></strong>?
+          </p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-brand mb-2">
+            Informe suas datas e horários disponíveis
+          </label>
+          <input type="text" id="availability-input" placeholder="Ex: 10 e 11 de novembro, das 9h às 14h"
+            class="w-full border-2 border-gray-200 bg-white rounded-lg p-3 focus:ring-2 focus:ring-gold focus:border-gold transition">
+        </div>
+
+        <button onclick="sendToAI()"
+          class="w-full bg-gradient-to-r from-gold to-yellow-500 text-brand font-bold py-4 px-6 rounded-full shadow-card hover:shadow-hover hover:brightness-110 transition flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+          Enviar à IA
+        </button>
+
+        <div id="ai-schedule-response"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-brand text-gray-300 py-12 mt-16">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row md:justify-between gap-8">
+      <div>
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-10 h-10 bg-gold rounded-lg flex items-center justify-center text-brand font-bold">TP</div>
+          <div>
+            <h4 class="font-semibold text-white">Talent Portal</h4>
+          </div>
+        </div>
+        <p class="text-xs text-gray-400 max-w-sm">© 2025 Talent Portal. Todos os direitos reservados. Plataforma
+          corporativa
+          de recrutamento assistido por IA.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-8 text-sm">
+        <div>
+          <p class="font-semibold text-white mb-2">Empresa</p>
+          <ul class="space-y-1 text-gray-400">
+            <li><a href="#" class="hover:text-gold transition">Sobre</a></li>
+            <li><a href="#" class="hover:text-gold transition">Carreiras</a></li>
+            <li><a href="#" class="hover:text-gold transition">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-semibold text-white mb-2">Suporte</p>
+          <ul class="space-y-1 text-gray-400">
+            <li><a href="#" class="hover:text-gold transition">Contato</a></li>
+            <li><a href="#" class="hover:text-gold transition">Documentação</a></li>
+            <li><a href="#" class="hover:text-gold transition">Privacidade</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Talent Portal — Luxo Institucional</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="images/talentportal.png" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
   <script>
     tailwind.config = {
@@ -34,21 +35,41 @@
   <header class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-b border-gray-200 z-50">
     <div class="max-w-7xl mx-auto flex justify-between items-center h-16 px-6">
       <div class="flex items-center gap-3">
-        <div
-          class="w-10 h-10 bg-gradient-to-r from-gold to-yellow-400 rounded-lg flex items-center justify-center shadow-glow">
-          <span class="font-bold text-brand">TP</span>
-        </div>
-        <div>
+        <button type="button" onclick="window.location.href='index.html'"
+          class="flex items-center gap-3 hover:opacity-80 transition">
+          <div
+            class="w-10 h-10 bg-gradient-to-r from-gold to-yellow-400 rounded-lg flex items-center justify-center shadow-glow">
+            <span class="font-bold text-brand">TP</span>
+          </div>
           <h1 class="font-semibold text-brand leading-tight">Talent Portal</h1>
-        </div>
+        </button>
       </div>
+
+      <!-- Desktop Nav -->
       <nav class="hidden md:flex items-center gap-6 text-sm text-gray-600">
-        <a href="#features" class="hover:text-brand">Recursos</a>
-        <a href="#process" class="hover:text-brand">Como Funciona</a>
-        <a href="#contact" class="hover:text-brand">Contato</a>
-        <!-- changed: botão que abre modal de login -->
+        <button type="button" onclick="openProcessModal()" class="hover:text-brand">Sobre Nós</button>
+        <button type="button" onclick="openContactModal()" class="hover:text-brand">Contato</button>
         <button type="button" onclick="openLoginModal()"
-          class="ml-3 bg-brand text-white px-4 py-2 rounded-full shadow-card hover:shadow-hover transition">Entrar</button>
+          class="ml-3 bg-brand text-white px-4 py-2 rounded-full shadow-card hover:shadow-hover transition">Cadastrar</button>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button type="button" onclick="toggleMobileMenu()" class="md:hidden text-brand" aria-label="Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+      <nav class="flex flex-col gap-2 p-4 text-sm text-gray-600">
+        <button type="button" onclick="openProcessModal(); toggleMobileMenu();"
+          class="text-left hover:text-brand py-2">Sobre Nós</button>
+        <button type="button" onclick="openContactModal(); toggleMobileMenu();"
+          class="text-left hover:text-brand py-2">Contato</button>
+        <button type="button" onclick="openLoginModal(); toggleMobileMenu();"
+          class="text-left bg-brand text-white px-4 py-2 rounded-full hover:brightness-110 transition">Cadastrar</button>
       </nav>
     </div>
   </header>
@@ -56,91 +77,94 @@
   <!-- HERO -->
   <section class="pt-32 pb-20 px-6 text-center bg-gradient-to-b from-white to-silver">
     <div class="max-w-3xl mx-auto">
-      <h2 class="text-4xl md:text-6xl font-extrabold text-brand leading-tight mb-4">
+      <h2 class="text-2xl sm:text-4xl md:text-6xl font-extrabold text-brand leading-tight mb-4">
         Portal de Recrutamento que une os melhores
         <span class="text-gold">talentos</span>
         <span class="text-brand">às melhores</span>
         <span class="text-gold">oportunidades</span>
       </h2>
-      <p class="text-lg text-gray-600 mb-8">Talent Portal combina IA de ponta com design corporativo premium para
+      <p class="text-sm sm:text-base md:text-lg text-gray-600 mb-8">Talent Portal combina IA de ponta com design
+        corporativo premium para
         identificar, classificar e conectar os melhores talentos às oportunidades estratégicas da sua organização.</p>
       <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <a href="#demo"
-          class="bg-gold text-brand font-semibold py-3 px-8 rounded-full shadow-card hover:shadow-hover hover:brightness-110 transition">Solicitar
-          Demonstração</a>
-        <a href="#features"
-          class="border border-brand text-brand font-semibold py-3 px-8 rounded-full hover:bg-brand hover:text-white transition">Como
-          Funciona</a>
+        <button type="button" onclick="openPlansModal()"
+          class="bg-gold text-brand font-semibold py-3 px-8 rounded-full shadow-card hover:shadow-hover hover:brightness-110 transition">Plano
+          Empresa</button>
+        <button type="button" onclick="openContactModal()"
+          class="border border-brand text-brand font-semibold py-3 px-8 rounded-full hover:bg-brand hover:text-white transition">Entre
+          em Contato</button>
       </div>
-      <div class="mt-8 text-sm text-gray-500 flex justify-center gap-3">
+      <div class="mt-8 text-xs sm:text-sm text-gray-500 flex flex-col sm:flex-row justify-center gap-3">
         <span class="flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full"></span>Sistema
           Online</span>
-        <span>•</span>
+        <span class="hidden sm:inline">•</span>
         <span>Segurança Corporativa</span>
-        <span>•</span>
+        <span class="hidden sm:inline">•</span>
         <span>Compliance</span>
       </div>
     </div>
   </section>
 
   <!-- DASHBOARD CARDS -->
-  <section id="features" class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8 mb-24">
-    <div class="bg-white rounded-2xl p-8 shadow-card hover:shadow-hover transition">
+  <section id="features"
+    class="max-w-7xl mx-auto px-6 grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-24">
+    <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-card hover:shadow-hover transition h-full flex flex-col">
       <div class="flex items-center gap-3 mb-4">
         <div class="w-12 h-12 bg-gold rounded-xl flex items-center justify-center text-brand font-bold">G</div>
-        <h3 class="text-xl font-semibold text-brand">Gestor da Área</h3>
+        <h3 class="text-lg sm:text-xl font-semibold text-brand">Gestor da Área</h3>
       </div>
       <p class="text-gray-600 mb-4 text-sm">Requisições estratégicas e visão executiva do pipeline.</p>
-      <ul class="text-gray-500 text-sm mb-6 space-y-2">
+      <ul class="text-gray-500 text-xs sm:text-sm mb-6 space-y-2 flex-1">
         <li>• Requisições inteligentes priorizadas</li>
         <li>• Relatórios executivos em 1 clique</li>
         <li>• Indicadores de performance (OKRs)</li>
       </ul>
-      <a href="#"
-        class="block text-center bg-gold text-brand font-semibold py-2.5 rounded-full hover:brightness-110 transition">Acessar
+      <a href="gestor.html"
+        class="block text-center bg-gold text-brand font-semibold py-2.5 rounded-full hover:brightness-110 transition text-sm">Acessar
         Dashboard</a>
     </div>
 
-    <div class="bg-white rounded-2xl p-8 shadow-card hover:shadow-hover transition">
+    <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-card hover:shadow-hover transition h-full flex flex-col">
       <div class="flex items-center gap-3 mb-4">
         <div class="w-12 h-12 bg-brand rounded-xl flex items-center justify-center text-white font-bold">R</div>
-        <h3 class="text-xl font-semibold text-brand">Recrutador</h3>
+        <h3 class="text-lg sm:text-xl font-semibold text-brand">Recrutador</h3>
       </div>
       <p class="text-gray-600 mb-4 text-sm">Pipeline visual e triagem automatizada com IA.</p>
-      <ul class="text-gray-500 text-sm mb-6 space-y-2">
+      <ul class="text-gray-500 text-xs sm:text-sm mb-6 space-y-2 flex-1">
         <li>• Pipeline visual e colaborativo</li>
         <li>• Triagem com scoring avançado</li>
         <li>• Integração com ATS e calendários</li>
       </ul>
-      <a href="#"
-        class="block text-center bg-brand text-white font-semibold py-2.5 rounded-full hover:brightness-110 transition">Acessar
+      <a href="recrutador.html"
+        class="block text-center bg-brand text-white font-semibold py-2.5 rounded-full hover:brightness-110 transition text-sm">Acessar
         Dashboard</a>
     </div>
 
-    <div class="bg-white rounded-2xl p-8 shadow-card hover:shadow-hover transition">
+    <div
+      class="bg-white rounded-2xl p-6 sm:p-8 shadow-card hover:shadow-hover transition h-full flex flex-col sm:col-span-2 md:col-span-1">
       <div class="flex items-center gap-3 mb-4">
         <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center text-white font-bold">C</div>
-        <h3 class="text-xl font-semibold text-brand">Candidato</h3>
+        <h3 class="text-lg sm:text-xl font-semibold text-brand">Candidato</h3>
       </div>
       <p class="text-gray-600 mb-4 text-sm">Vagas selecionadas e recomendações personalizadas.</p>
-      <ul class="text-gray-500 text-sm mb-6 space-y-2">
+      <ul class="text-gray-500 text-xs sm:text-sm mb-6 space-y-2 flex-1">
         <li>• Perfil enriquecido por IA</li>
         <li>• Recomendações confidenciais</li>
         <li>• Acompanhamento de candidaturas</li>
       </ul>
-      <a href="#"
-        class="block text-center bg-green-500 text-white font-semibold py-2.5 rounded-full hover:brightness-110 transition">Explorar
+      <a href="candidato.html"
+        class="block text-center bg-green-500 text-white font-semibold py-2.5 rounded-full hover:brightness-110 transition text-sm">Explorar
         Vagas</a>
     </div>
   </section>
 
-  <!-- LOGIN MODAL (adicionado) -->
+  <!-- LOGIN MODAL -->
   <div id="login-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
     <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl">
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-semibold text-brand">Entrar no Talent Portal</h3>
-        <button onclick="closeLoginModal()" class="text-gray-500 hover:text-gray-700">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button onclick="closeLoginModal()" class="text-gray-500 hover:text-gray-700" aria-label="Fechar login">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
@@ -171,8 +195,236 @@
     </div>
   </div>
 
+  <!-- CONTACT MODAL -->
+  <div id="contact-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl max-h-screen overflow-y-auto">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-brand">Entrar em Contato</h3>
+        <button onclick="closeContactModal()" class="text-gray-500 hover:text-gray-700" aria-label="Fechar contato">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <form id="contact-form" onsubmit="event.preventDefault(); submitContact();" novalidate>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Nome</label>
+        <input id="contact-name" type="text" class="w-full border-2 border-gray-200 rounded-lg p-3 mb-3" required />
+
+        <label class="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
+        <input id="contact-phone" type="tel" class="w-full border-2 border-gray-200 rounded-lg p-3 mb-3" />
+
+        <label class="block text-sm font-medium text-gray-700 mb-2">E-mail</label>
+        <input id="contact-email" type="email" class="w-full border-2 border-gray-200 rounded-lg p-3 mb-3" required />
+
+        <label class="block text-sm font-medium text-gray-700 mb-2">Mensagem</label>
+        <textarea id="contact-message" rows="4" class="w-full border-2 border-gray-200 rounded-lg p-3 mb-3"
+          required></textarea>
+
+        <div class="flex gap-3">
+          <button type="submit" class="flex-1 bg-brand text-white py-3 rounded-lg font-semibold">Enviar</button>
+          <button type="button" onclick="closeContactModal()"
+            class="flex-1 border-2 border-gray-200 py-3 rounded-lg">Cancelar</button>
+        </div>
+
+        <p id="contact-success" class="text-sm text-green-500 mt-3 hidden">Mensagem enviada (simulação).</p>
+        <p id="contact-error" class="text-sm text-red-500 mt-3 hidden"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- PROCESS / SOBRE NÓS MODAL -->
+  <div id="process-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div class="bg-white rounded-2xl w-full max-w-2xl p-6 shadow-2xl max-h-screen overflow-y-auto">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-brand">Sobre Nós</h3>
+        <button onclick="closeProcessModal()" class="text-gray-500 hover:text-gray-700" aria-label="Fechar sobre nós">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="prose max-w-none text-gray-700 text-sm">
+        <p><strong>Talent Portal</strong> é uma plataforma dedicada a conectar talentos às melhores oportunidades.
+          Desenvolvemos soluções que combinam inteligência artificial, design e práticas de recrutamento para oferecer
+          um processo eficiente e humano.</p>
+        <p>Nosso time reuniu especialistas em RH, dados e produto. Trabalhamos para criar experiências seguras,
+          transparentes e orientadas por resultados.</p>
+        <p>Plataforma desenvolvida por 6 amigos (Cinthia, Éric, Guilherme, Josiel, Ronier, Willian) — A melhor forma de
+          um
+          recrutador
+          encontrar seu candidato!</p>
+      </div>
+
+      <div class="mt-6 flex justify-end">
+        <button onclick="closeProcessModal()" class="px-4 py-2 rounded-lg border border-gray-200">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLANS / PLANO EMPRESA MODAL -->
+  <div id="plans-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div class="bg-white rounded-2xl w-full max-w-4xl p-6 shadow-2xl max-h-screen overflow-y-auto">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-lg font-semibold text-brand">Planos Empresa</h3>
+        <button onclick="closePlansModal()" class="text-gray-500 hover:text-gray-700" aria-label="Fechar planos">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-2">
+        <!-- Starter -->
+        <div class="border border-gray-200 rounded-xl p-4 flex flex-col h-full hover:shadow-card transition">
+          <div class="mb-3">
+            <h4 class="font-semibold text-brand text-base mb-0.5">Starter</h4>
+            <p class="text-xs text-gray-500">Pequenos times</p>
+          </div>
+          <div class="bg-silver rounded-lg p-2.5 mb-3">
+            <div class="text-xl sm:text-2xl font-extrabold text-brand">R$ 199<span
+                class="text-xs font-normal text-gray-600">/mês</span></div>
+          </div>
+          <ul class="text-xs text-gray-600 mb-4 space-y-1.5 flex-1">
+            <li class="flex items-start gap-1.5">
+              <span class="text-gold font-bold flex-shrink-0">✓</span>
+              <span>5 vagas simultâneas</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-gold font-bold flex-shrink-0">✓</span>
+              <span>Triagem básica com IA</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-gold font-bold flex-shrink-0">✓</span>
+              <span>Exportação CSV</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-gray-300 font-bold mt-0.5">✗</span>
+              <span class="text-gray-400">Integrações ATS</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-gray-300 font-bold mt-0.5">✗</span>
+              <span class="text-gray-400">Suporte prioritário</span>
+            </li>
+          </ul>
+          <button onclick="selectPlan('Starter')"
+            class="w-full bg-gold text-brand font-semibold py-2 rounded-lg hover:brightness-110 transition text-xs">Contratar
+            Starter</button>
+        </div>
+
+        <!-- Business -->
+        <div
+          class="border-2 border-gold rounded-xl p-4 flex flex-col h-full bg-gradient-to-br from-gold/5 to-transparent">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="bg-gold text-brand px-2 py-0.5 rounded-full text-xs font-bold">POPULAR</div>
+          </div>
+          <div class="mb-3">
+            <h4 class="font-semibold text-brand text-base mb-0.5">Business</h4>
+            <p class="text-xs text-gray-500">Equipes ativas</p>
+          </div>
+          <div class="bg-gold/10 rounded-lg p-2.5 mb-3 border border-gold/30">
+            <div class="text-xl sm:text-2xl font-extrabold text-brand">R$ 399<span
+                class="text-xs font-normal text-gray-600">/mês</span></div>
+          </div>
+          <ul class="text-xs text-gray-600 mb-4 space-y-1.5 flex-1">
+            <li class="flex items-start gap-1.5">
+              <span class="text-gold font-bold flex-shrink-0">✓</span>
+              <span>25 vagas simultâneas</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-gold font-bold flex-shrink-0">✓</span>
+              <span>Triagem avançada por IA</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-gold font-bold flex-shrink-0">✓</span>
+              <span>Integrações ATS</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-gold font-bold flex-shrink-0">✓</span>
+              <span>Relatórios detalhados</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-gold font-bold flex-shrink-0">✓</span>
+              <span>Suporte 24h por email</span>
+            </li>
+          </ul>
+          <button onclick="selectPlan('Business')"
+            class="w-full bg-brand text-white font-semibold py-2 rounded-lg hover:brightness-110 transition text-xs">Contratar
+            Business</button>
+        </div>
+
+        <!-- Enterprise -->
+        <div
+          class="border-2 border-gold rounded-xl p-4 flex flex-col h-full sm:col-span-2 md:col-span-1 bg-gradient-to-br from-brand/5 via-gold/5 to-transparent">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex-1">
+              <h4 class="font-semibold text-brand text-base mb-0.5">Enterprise</h4>
+              <p class="text-xs text-gold font-semibold">Soluções Premium Customizadas</p>
+            </div>
+            <div
+              class="w-9 h-9 bg-gradient-to-br from-gold to-yellow-400 rounded-lg flex items-center justify-center flex-shrink-0 shadow-glow">
+              <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z">
+                </path>
+              </svg>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg p-2.5 mb-3 border border-gold/20">
+            <p class="text-xs text-gray-500 mb-0.5">Investimento Anual</p>
+            <div class="text-xl sm:text-2xl font-extrabold text-brand">Personalizado</div>
+            <p class="text-xs text-gray-600 mt-1">Solução customizada para sua organização</p>
+          </div>
+
+          <div class="space-y-2 mb-3 flex-1">
+            <div class="bg-white rounded-lg p-2.5 border border-gray-100">
+              <p class="font-semibold text-brand text-xs mb-1">⚡ Recursos Avançados</p>
+              <ul class="text-xs text-gray-600 space-y-0.5">
+                <li>• Vagas ilimitadas</li>
+                <li>• IA de ponta sem limitações</li>
+                <li>• Análise preditiva avançada</li>
+              </ul>
+            </div>
+
+            <div class="bg-white rounded-lg p-2.5 border border-gray-100">
+              <p class="font-semibold text-brand text-xs mb-1">🔗 Integração Completa</p>
+              <ul class="text-xs text-gray-600 space-y-0.5">
+                <li>• API customizada e documentada</li>
+                <li>• SSO e SAML e Active Directory</li>
+                <li>• Sincronização de dados em tempo real</li>
+              </ul>
+            </div>
+
+            <div class="bg-white rounded-lg p-2.5 border border-gray-100">
+              <p class="font-semibold text-brand text-xs mb-1">🎯 Suporte Premium</p>
+              <ul class="text-xs text-gray-600 space-y-0.5">
+                <li>• Account Manager dedicado</li>
+                <li>• Suporte 24/7 por chat, email e telefone</li>
+                <li>• Treinamento personalizado para equipe</li>
+                <li>• Roadmap customizado e prioridades</li>
+              </ul>
+            </div>
+          </div>
+
+          <button onclick="openContactModal()"
+            class="w-full bg-brand text-white font-semibold py-2 rounded-lg hover:brightness-110 transition text-xs">Solicitar
+            Proposta</button>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-6 border-t border-gray-200 text-xs sm:text-sm text-gray-600">
+        <p><strong>ℹ️ Observação:</strong> Candidatos usam a plataforma gratuitamente. Os planos incluem recursos
+          essenciais e os valores podem ser ajustados
+          conforme sua necessidade.</p>
+      </div>
+
+      <p id="plan-success" class="text-sm text-green-600 mt-4 p-4 bg-green-50 rounded-lg hidden"></p>
+    </div>
+  </div>
+
   <!-- FOOTER -->
-  <footer class="bg-brand text-gray-300 py-12 mt-auto">
+  <footer class="bg-brand text-gray-300 py-8 sm:py-12 mt-auto">
     <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row md:justify-between gap-8">
       <div>
         <div class="flex items-center gap-3 mb-3">
@@ -184,21 +436,21 @@
         <p class="text-xs text-gray-400 max-w-sm">© 2025 Talent Portal. Todos os direitos reservados. Plataforma
           corporativa de recrutamento assistido por IA.</p>
       </div>
-      <div class="grid grid-cols-2 gap-8 text-sm">
+      <div class="grid grid-cols-2 gap-8 text-xs sm:text-sm">
         <div>
           <p class="font-semibold text-white mb-2">Empresa</p>
           <ul class="space-y-1 text-gray-400">
-            <li><a href="#">Sobre</a></li>
-            <li><a href="#">Carreiras</a></li>
-            <li><a href="#">Blog</a></li>
+            <li><a href="#" class="hover:text-gold transition">Sobre</a></li>
+            <li><a href="#" class="hover:text-gold transition">Carreiras</a></li>
+            <li><a href="#" class="hover:text-gold transition">Blog</a></li>
           </ul>
         </div>
         <div>
           <p class="font-semibold text-white mb-2">Suporte</p>
           <ul class="space-y-1 text-gray-400">
-            <li><a href="#">Contato</a></li>
-            <li><a href="#">Documentação</a></li>
-            <li><a href="#">Privacidade</a></li>
+            <li><a href="#" class="hover:text-gold transition">Contato</a></li>
+            <li><a href="#" class="hover:text-gold transition">Documentação</a></li>
+            <li><a href="#" class="hover:text-gold transition">Privacidade</a></li>
           </ul>
         </div>
       </div>
@@ -206,7 +458,13 @@
   </footer>
 
   <script>
-    // Funções do modal de login e redirecionamento por perfil (frontend apenas)
+    // Toggle mobile menu
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // LOGIN modal
     function openLoginModal() {
       document.getElementById('login-modal').classList.remove('hidden');
       document.getElementById('login-error').classList.add('hidden');
@@ -224,8 +482,6 @@
         return;
       }
 
-      // Redirecionamento simples para arquivos estáticos conforme perfil.
-      // Em produção, substituir por autenticação real no backend.
       if (profile === 'recrutador') {
         window.location.href = 'recrutador.html';
       } else if (profile === 'gestor') {
@@ -238,9 +494,69 @@
       }
     }
 
-    // Fecha modal com ESC
+    // CONTACT modal
+    function openContactModal() {
+      document.getElementById('contact-modal').classList.remove('hidden');
+      document.getElementById('contact-success').classList.add('hidden');
+      document.getElementById('contact-error').classList.add('hidden');
+    }
+    function closeContactModal() {
+      document.getElementById('contact-modal').classList.add('hidden');
+    }
+    function submitContact() {
+      const name = document.getElementById('contact-name').value.trim();
+      const email = document.getElementById('contact-email').value.trim();
+      const message = document.getElementById('contact-message').value.trim();
+      const successEl = document.getElementById('contact-success');
+      const errorEl = document.getElementById('contact-error');
+
+      if (!name || !email || !message) {
+        errorEl.textContent = 'Preencha nome, e-mail e mensagem.';
+        errorEl.classList.remove('hidden');
+        successEl.classList.add('hidden');
+        return;
+      }
+
+      successEl.classList.remove('hidden');
+      errorEl.classList.add('hidden');
+
+      document.getElementById('contact-form').reset();
+
+      setTimeout(closeContactModal, 1400);
+    }
+
+    // PROCESS / SOBRE NÓS modal
+    function openProcessModal() {
+      document.getElementById('process-modal').classList.remove('hidden');
+    }
+    function closeProcessModal() {
+      document.getElementById('process-modal').classList.add('hidden');
+    }
+
+    // PLANS / PLANO EMPRESA modal
+    function openPlansModal() {
+      document.getElementById('plans-modal').classList.remove('hidden');
+      const s = document.getElementById('plan-success');
+      if (s) s.classList.add('hidden');
+    }
+    function closePlansModal() {
+      document.getElementById('plans-modal').classList.add('hidden');
+    }
+    function selectPlan(plan) {
+      const successEl = document.getElementById('plan-success');
+      successEl.textContent = `✓ Plano "${plan}" selecionado! Nossa equipe entrará em contato em breve para confirmar os detalhes.`;
+      successEl.classList.remove('hidden');
+      setTimeout(closePlansModal, 2000);
+    }
+
+    // fechar modais com ESC
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeLoginModal();
+      if (e.key === 'Escape') {
+        closeLoginModal();
+        closeContactModal();
+        closeProcessModal();
+        closePlansModal();
+      }
     });
   </script>
 </body>

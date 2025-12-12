@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Dashboard Gestor — Talent Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="images/talentportal.png" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -29,6 +30,12 @@
     }
   </script>
   <script>
+    // Toggle mobile menu
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
     // Função para gerar sugestão de IA para descrição de vaga
     function generateAISuggestion() {
       const jobTitle = document.getElementById('job-title').value;
@@ -156,14 +163,17 @@
   <header class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-b border-gray-200 z-50">
     <div class="max-w-7xl mx-auto flex justify-between items-center h-16 px-6">
       <div class="flex items-center gap-3">
-        <div
-          class="w-10 h-10 bg-gradient-to-r from-gold to-yellow-400 rounded-lg flex items-center justify-center shadow-glow">
-          <span class="font-bold text-brand">TP</span>
-        </div>
-        <div>
+        <button type="button" onclick="window.location.href='index.html'"
+          class="flex items-center gap-3 hover:opacity-80 transition">
+          <div
+            class="w-10 h-10 bg-gradient-to-r from-gold to-yellow-400 rounded-lg flex items-center justify-center shadow-glow">
+            <span class="font-bold text-brand">TP</span>
+          </div>
           <h1 class="font-semibold text-brand leading-tight">Talent Portal</h1>
-        </div>
+        </button>
       </div>
+
+      <!-- Desktop Nav -->
       <nav class="hidden md:flex items-center gap-6 text-sm text-gray-600">
         <a href="index.html" class="hover:text-brand transition">Início</a>
         <a href="#dashboard" class="text-brand font-semibold">Dashboard</a>
@@ -179,13 +189,39 @@
           </div>
         </div>
       </nav>
+
+      <!-- Mobile Menu Button -->
+      <button type="button" onclick="toggleMobileMenu()" class="md:hidden text-brand" aria-label="Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+      <nav class="flex flex-col gap-2 p-4 text-sm text-gray-600">
+        <a href="index.html" class="text-left hover:text-brand py-2">Início</a>
+        <a href="#dashboard" class="text-left text-brand font-semibold py-2">Dashboard</a>
+        <a href="#minhas-vagas" class="text-left hover:text-brand py-2">Minhas Vagas</a>
+        <a href="#relatorios" class="text-left hover:text-brand py-2">Relatórios</a>
+        <div class="flex items-center gap-3 mt-3 pt-3 border-t border-gray-200">
+          <div class="w-8 h-8 bg-gold rounded-full flex items-center justify-center">
+            <span class="text-brand text-xs font-bold">JS</span>
+          </div>
+          <div class="text-left">
+            <p class="text-xs font-semibold text-brand">João Silva</p>
+            <p class="text-xs text-gray-500">Gestor de TI</p>
+          </div>
+        </div>
+      </nav>
     </div>
   </header>
 
   <!-- WELCOME SECTION -->
   <section class="pt-24 pb-8 px-6 bg-gradient-to-b from-white to-silver">
     <div class="max-w-7xl mx-auto">
-      <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
         <div>
           <h2 class="text-3xl md:text-4xl font-bold text-brand mb-2">Bem-vindo, João Silva</h2>
           <p class="text-lg text-gray-600">Crie e otimize descrições de vagas com IA corporativa de ponta</p>
@@ -446,17 +482,15 @@
       <!-- MINHAS VAGAS CRIADAS -->
       <div class="bg-white rounded-2xl shadow-card mb-12">
         <div class="p-8 border-b border-gray-200">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between flex-wrap gap-4">
             <h3 class="text-xl font-semibold text-brand">Minhas Vagas Criadas</h3>
-            <div class="flex items-center gap-3">
-              <select
-                class="text-sm border-2 border-gray-200 rounded-lg px-4 py-2 font-medium focus:ring-2 focus:ring-gold focus:border-gold">
-                <option>Todas as vagas</option>
-                <option>Em análise</option>
-                <option>Em seleção</option>
-                <option>Finalizadas</option>
-              </select>
-            </div>
+            <select
+              class="text-sm border-2 border-gray-200 rounded-lg px-4 py-2 font-medium focus:ring-2 focus:ring-gold focus:border-gold">
+              <option>Todas as vagas</option>
+              <option>Em análise</option>
+              <option>Em seleção</option>
+              <option>Finalizadas</option>
+            </select>
           </div>
         </div>
 

@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Dashboard Candidato — Talent Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="images/talentportal.png" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -29,6 +30,12 @@
     }
   </script>
   <script>
+    // Toggle mobile menu
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
     // Função para simular análise de IA
     function analyzeResume() {
       const userInput = document.getElementById('resume-input').value;
@@ -58,7 +65,7 @@
       setTimeout(() => {
         responseDiv.innerHTML = `
           <div class="bg-white border-2 border-gold/30 p-6 rounded-2xl shadow-card">
-            <div class="flex items-start gap-3 mb-4">
+            <div class="flex flex-col md:flex-row md:items-start gap-3 mb-4">
               <div class="w-10 h-10 bg-gold rounded-xl flex items-center justify-center flex-shrink-0">
                 <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
@@ -70,7 +77,7 @@
                 <div class="space-y-4 text-sm text-gray-700">
                   <div class="bg-green-50 p-4 rounded-lg border border-green-200">
                     <p class="font-semibold text-green-800 mb-2">🎯 Pontos Fortes Identificados:</p>
-                    <ul class="list-disc list-inside space-y-1 text-green-700">
+                    <ul class="list-disc list-inside space-y-1 text-green-700 text-xs md:text-sm">
                       <li>Experiência diversificada em múltiplas tecnologias</li>
                       <li>Trajetória de crescimento profissional clara</li>
                       <li>Competências técnicas relevantes para o mercado</li>
@@ -79,7 +86,7 @@
 
                   <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
                     <p class="font-semibold text-blue-800 mb-2">💡 Recomendações de Melhoria:</p>
-                    <ul class="list-disc list-inside space-y-1 text-blue-700">
+                    <ul class="list-disc list-inside space-y-1 text-blue-700 text-xs md:text-sm">
                       <li><strong>Quantifique resultados:</strong> Adicione métricas como "Aumentei a eficiência em 23%" ou "Reduzi bugs em 40%"</li>
                       <li><strong>Destaque impacto:</strong> Foque em resultados de negócio, não apenas responsabilidades</li>
                       <li><strong>Use verbos de ação:</strong> Comece frases com "Implementei", "Liderei", "Otimizei"</li>
@@ -101,7 +108,7 @@
 
                   <div class="bg-gold/10 p-4 rounded-lg border border-gold/30">
                     <p class="font-semibold text-brand mb-2">📈 Próximos Passos:</p>
-                    <ol class="list-decimal list-inside space-y-1 text-slate">
+                    <ol class="list-decimal list-inside space-y-1 text-slate text-xs md:text-sm">
                       <li>Atualize suas experiências com as métricas sugeridas</li>
                       <li>Adicione projetos relevantes com links (GitHub, portfolio)</li>
                       <li>Inclua certificações recentes e cursos complementares</li>
@@ -110,7 +117,7 @@
                   </div>
                 </div>
 
-                <div class="mt-6 flex gap-3">
+                <div class="mt-6 flex flex-col sm:flex-row gap-3">
                   <button class="flex-1 bg-gold text-brand font-semibold py-3 px-6 rounded-lg hover:brightness-110 shadow-card hover:shadow-hover transition">
                     💾 Aplicar Sugestões
                   </button>
@@ -132,19 +139,47 @@
   <header class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-b border-gray-200 z-50">
     <div class="max-w-7xl mx-auto flex justify-between items-center h-16 px-6">
       <div class="flex items-center gap-3">
-        <div
-          class="w-10 h-10 bg-gradient-to-r from-gold to-yellow-400 rounded-lg flex items-center justify-center shadow-glow">
-          <span class="font-bold text-brand">TP</span>
-        </div>
-        <div>
+        <button type="button" onclick="window.location.href='index.html'"
+          class="flex items-center gap-3 hover:opacity-80 transition">
+          <div
+            class="w-10 h-10 bg-gradient-to-r from-gold to-yellow-400 rounded-lg flex items-center justify-center shadow-glow">
+            <span class="font-bold text-brand">TP</span>
+          </div>
           <h1 class="font-semibold text-brand leading-tight">Talent Portal</h1>
-        </div>
+        </button>
       </div>
+
+      <!-- Desktop Nav -->
       <nav class="hidden md:flex items-center gap-6 text-sm text-gray-600">
         <a href="index.html" class="hover:text-brand transition">Início</a>
         <a href="#vagas" class="hover:text-brand transition">Vagas</a>
         <a href="#perfil" class="text-brand font-semibold">Meu Perfil</a>
         <div class="flex items-center gap-3 ml-3 pl-3 border-l border-gray-300">
+          <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+            <span class="text-white text-xs font-bold">PS</span>
+          </div>
+          <div class="text-left">
+            <p class="text-xs font-semibold text-brand">Pedro Silva</p>
+            <p class="text-xs text-gray-500">Desenvolvedor</p>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button type="button" onclick="toggleMobileMenu()" class="md:hidden text-brand" aria-label="Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+      <nav class="flex flex-col gap-2 p-4 text-sm text-gray-600">
+        <a href="index.html" class="text-left hover:text-brand py-2">Início</a>
+        <a href="#vagas" class="text-left hover:text-brand py-2">Vagas</a>
+        <a href="#perfil" class="text-left text-brand font-semibold py-2">Meu Perfil</a>
+        <div class="flex items-center gap-3 mt-3 pt-3 border-t border-gray-200">
           <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
             <span class="text-white text-xs font-bold">PS</span>
           </div>
@@ -160,23 +195,24 @@
   <!-- WELCOME SECTION -->
   <section class="pt-24 pb-8 px-6 bg-gradient-to-b from-white to-silver">
     <div class="max-w-7xl mx-auto">
-      <div class="flex items-center justify-between mb-8">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div>
-          <h2 class="text-3xl md:text-4xl font-bold text-brand mb-2">Bem-vindo, Pedro Silva</h2>
-          <p class="text-lg text-gray-600">Otimize seu perfil com IA e encontre as melhores oportunidades</p>
+          <h2 class="text-2xl md:text-4xl font-bold text-brand mb-2">Bem-vindo, Pedro Silva</h2>
+          <p class="text-base md:text-lg text-gray-600">Otimize seu perfil com IA e encontre as melhores oportunidades
+          </p>
         </div>
-        <div class="hidden md:block bg-white rounded-2xl px-6 py-4 shadow-card">
-          <div class="flex items-center gap-3">
-            <div class="flex-1">
+        <div class="bg-white rounded-2xl px-4 sm:px-6 py-4 shadow-card w-full md:w-auto">
+          <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+            <div class="flex-1 min-w-0">
               <p class="text-xs text-gray-500 mb-1">Completude do Perfil</p>
               <div class="flex items-center gap-2">
                 <div class="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
                   <div class="bg-gold h-full rounded-full" style="width: 80%"></div>
                 </div>
-                <span class="text-sm font-bold text-brand">80%</span>
+                <span class="text-sm font-bold text-brand flex-shrink-0">80%</span>
               </div>
             </div>
-            <div class="w-12 h-12 bg-gold/10 rounded-xl flex items-center justify-center">
+            <div class="w-12 h-12 bg-gold/10 rounded-xl flex items-center justify-center flex-shrink-0">
               <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -187,12 +223,12 @@
       </div>
 
       <!-- MAIN CONTENT: PERFIL E OTIMIZAÇÃO -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-12">
         <!-- CARD ESQUERDO: FORMAÇÃO E EXPERIÊNCIA -->
         <div class="bg-white rounded-2xl shadow-card">
-          <div class="p-8 border-b border-gray-200">
-            <h3 class="text-xl font-semibold text-brand flex items-center gap-2">
-              <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="p-6 md:p-8 border-b border-gray-200">
+            <h3 class="text-lg md:text-xl font-semibold text-brand flex items-center gap-2">
+              <svg class="w-6 h-6 text-gold flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
                 </path>
@@ -201,7 +237,7 @@
             </h3>
           </div>
 
-          <div class="p-8 space-y-6">
+          <div class="p-6 md:p-8 space-y-6 max-h-[70vh] overflow-y-auto">
             <!-- Áreas de Atuação -->
             <div>
               <label class="block text-sm font-semibold text-brand mb-2">Áreas de Atuação</label>
@@ -221,7 +257,7 @@
               <div class="space-y-3">
                 <div class="bg-silver p-4 rounded-lg border border-gray-200">
                   <input type="text" value="Bacharelado em Ciência da Computação"
-                    class="w-full bg-transparent font-medium text-brand mb-2 border-0 p-0 focus:ring-0">
+                    class="w-full bg-transparent font-medium text-brand mb-2 border-0 p-0 focus:ring-0 text-sm md:text-base">
                   <input type="text" value="Universidade de São Paulo (USP)"
                     class="w-full bg-transparent text-sm text-gray-600 mb-1 border-0 p-0 focus:ring-0">
                   <input type="text" value="2016 - 2020"
@@ -243,7 +279,7 @@
                     </path>
                   </svg>
                   <input type="text" value="AWS Certified Solutions Architect"
-                    class="flex-1 bg-transparent text-sm font-medium text-brand border-0 p-0 focus:ring-0">
+                    class="flex-1 bg-transparent text-sm font-medium text-brand border-0 p-0 focus:ring-0 min-w-0">
                 </div>
                 <div class="flex items-center gap-2 p-3 bg-silver rounded-lg">
                   <svg class="w-5 h-5 text-gold flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -252,7 +288,7 @@
                     </path>
                   </svg>
                   <input type="text" value="Professional Scrum Master I (PSM I)"
-                    class="flex-1 bg-transparent text-sm font-medium text-brand border-0 p-0 focus:ring-0">
+                    class="flex-1 bg-transparent text-sm font-medium text-brand border-0 p-0 focus:ring-0 min-w-0">
                 </div>
               </div>
               <button class="mt-3 text-sm text-brand font-semibold hover:text-gold transition">+ Adicionar
@@ -265,7 +301,7 @@
               <div class="space-y-4">
                 <div class="bg-silver p-5 rounded-xl border-2 border-gray-200 hover:border-gold transition">
                   <input type="text" value="Desenvolvedor Full Stack Sênior"
-                    class="w-full bg-transparent font-semibold text-brand mb-2 border-0 p-0 focus:ring-0">
+                    class="w-full bg-transparent font-semibold text-brand mb-2 border-0 p-0 focus:ring-0 text-sm md:text-base">
                   <input type="text" value="TechCorp Solutions"
                     class="w-full bg-transparent text-sm text-gray-600 mb-1 border-0 p-0 focus:ring-0">
                   <input type="text" value="Jan 2021 - Presente"
@@ -276,7 +312,7 @@
 
                 <div class="bg-silver p-5 rounded-xl border-2 border-gray-200 hover:border-gold transition">
                   <input type="text" value="Desenvolvedor Backend Pleno"
-                    class="w-full bg-transparent font-semibold text-brand mb-2 border-0 p-0 focus:ring-0">
+                    class="w-full bg-transparent font-semibold text-brand mb-2 border-0 p-0 focus:ring-0 text-sm md:text-base">
                   <input type="text" value="StartupX"
                     class="w-full bg-transparent text-sm text-gray-600 mb-1 border-0 p-0 focus:ring-0">
                   <input type="text" value="Mar 2019 - Dez 2020"
@@ -290,7 +326,7 @@
             </div>
 
             <!-- Botão Atualizar -->
-            <div class="pt-4">
+            <div class="pt-4 sticky bottom-0 bg-white">
               <button
                 class="w-full bg-gold text-brand font-semibold py-3 px-6 rounded-lg hover:brightness-110 shadow-card hover:shadow-hover transition">
                 💾 Atualizar Informações
@@ -301,9 +337,9 @@
 
         <!-- CARD DIREITO: OTIMIZAÇÃO COM IA -->
         <div class="bg-white rounded-2xl shadow-card">
-          <div class="p-8 border-b border-gray-200">
-            <h3 class="text-xl font-semibold text-brand flex items-center gap-2">
-              <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="p-6 md:p-8 border-b border-gray-200">
+            <h3 class="text-lg md:text-xl font-semibold text-brand flex items-center gap-2">
+              <svg class="w-6 h-6 text-gold flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
                 </path>
@@ -314,11 +350,11 @@
               perfil mais atrativo para recrutadores.</p>
           </div>
 
-          <div class="p-8 space-y-6">
+          <div class="p-6 md:p-8 space-y-6">
             <!-- Textarea de entrada -->
             <div>
               <label class="block text-sm font-semibold text-brand mb-2">Descreva seu currículo atual</label>
-              <textarea id="resume-input" rows="8"
+              <textarea id="resume-input" rows="6" md:rows="8"
                 placeholder="Exemplo: Sou desenvolvedor full stack com 5 anos de experiência. Trabalhei na TechCorp desenvolvendo APIs e liderando equipes. Tenho formação em Ciência da Computação pela USP e certificações em AWS..."
                 class="w-full bg-white border-2 border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-gold focus:border-gold transition resize-none"></textarea>
             </div>
@@ -330,7 +366,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z">
                 </path>
               </svg>
-              Analisar e Otimizar Currículo
+              <span class="hidden sm:inline">Analisar e Otimizar Currículo</span>
+              <span class="sm:hidden">Analisar Currículo</span>
             </button>
 
             <!-- Área de resposta da IA -->
@@ -338,7 +375,7 @@
               <div
                 class="bg-gradient-to-br from-silver to-gray-100 p-6 rounded-2xl border-2 border-dashed border-gray-300">
                 <div class="text-center text-gray-500">
-                  <svg class="w-16 h-16 mx-auto mb-3 text-gray-400" fill="none" stroke="currentColor"
+                  <svg class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 text-gray-400" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
@@ -370,14 +407,14 @@
       </div>
 
       <!-- STATS CARDS -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12">
         <div class="bg-white rounded-2xl p-6 shadow-card hover:shadow-hover transition">
           <div class="flex items-center justify-between mb-3">
             <div>
               <p class="text-sm font-medium text-gray-500">Candidaturas Ativas</p>
               <p class="text-3xl font-bold text-brand mt-1">5</p>
             </div>
-            <div class="w-12 h-12 bg-brand/10 rounded-xl flex items-center justify-center">
+            <div class="w-12 h-12 bg-brand/10 rounded-xl flex items-center justify-center flex-shrink-0">
               <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
@@ -394,7 +431,7 @@
               <p class="text-sm font-medium text-gray-500">Vagas Recomendadas</p>
               <p class="text-3xl font-bold text-brand mt-1">12</p>
             </div>
-            <div class="w-12 h-12 bg-gold/10 rounded-xl flex items-center justify-center">
+            <div class="w-12 h-12 bg-gold/10 rounded-xl flex items-center justify-center flex-shrink-0">
               <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
@@ -411,7 +448,7 @@
               <p class="text-sm font-medium text-gray-500">Em Entrevista</p>
               <p class="text-3xl font-bold text-brand mt-1">2</p>
             </div>
-            <div class="w-12 h-12 bg-yellow-50 rounded-xl flex items-center justify-center">
+            <div class="w-12 h-12 bg-yellow-50 rounded-xl flex items-center justify-center flex-shrink-0">
               <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -427,7 +464,7 @@
               <p class="text-sm font-medium text-gray-500">Taxa de Match</p>
               <p class="text-3xl font-bold text-brand mt-1">78<span class="text-xl">%</span></p>
             </div>
-            <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center">
+            <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center flex-shrink-0">
               <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -438,31 +475,32 @@
         </div>
       </div>
 
-      <!-- VAGAS RECOMENDADAS (Seção Compacta) -->
+      <!-- VAGAS RECOMENDADAS -->
       <div class="bg-white rounded-2xl shadow-card mb-12">
-        <div class="p-8 border-b border-gray-200">
-          <div class="flex items-center justify-between">
+        <div class="p-6 md:p-8 border-b border-gray-200">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <h3 class="text-xl font-semibold text-brand">Vagas Recomendadas para Você</h3>
             <a href="#" class="text-gold hover:text-yellow-600 text-sm font-semibold transition">Ver todas →</a>
           </div>
         </div>
 
-        <div class="p-8">
+        <div class="p-6 md:p-8">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Vaga 1 -->
             <div class="border-2 border-gray-200 rounded-2xl p-6 hover:border-green-500 hover:shadow-hover transition">
-              <div class="flex items-start justify-between mb-3">
-                <div class="flex-1">
-                  <div class="flex items-center gap-2 mb-2">
+              <div class="flex flex-col gap-3 mb-4">
+                <div>
+                  <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
                     <h4 class="text-lg font-semibold text-brand">Desenvolvedor Full Stack</h4>
-                    <span class="px-3 py-1 text-xs font-bold bg-green-100 text-green-700 rounded-full">95% Match</span>
+                    <span class="px-3 py-1 text-xs font-bold bg-green-100 text-green-700 rounded-full w-fit">95%
+                      Match</span>
                   </div>
                   <p class="text-sm font-medium text-gray-600">TechCorp • São Paulo, SP</p>
                 </div>
               </div>
               <p class="text-sm text-gray-600 mb-4">Trabalhe com React e Node.js em nosso produto principal.
                 Oportunidade de crescimento e impacto real.</p>
-              <div class="flex gap-2">
+              <div class="flex flex-col sm:flex-row gap-2">
                 <button
                   class="flex-1 bg-green-500 text-white text-sm font-semibold py-2.5 rounded-lg hover:bg-green-600 transition">
                   Candidatar-se
@@ -480,18 +518,19 @@
 
             <!-- Vaga 2 -->
             <div class="border-2 border-gray-200 rounded-2xl p-6 hover:border-blue-500 hover:shadow-hover transition">
-              <div class="flex items-start justify-between mb-3">
-                <div class="flex-1">
-                  <div class="flex items-center gap-2 mb-2">
+              <div class="flex flex-col gap-3 mb-4">
+                <div>
+                  <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
                     <h4 class="text-lg font-semibold text-brand">Desenvolvedor Backend</h4>
-                    <span class="px-3 py-1 text-xs font-bold bg-blue-100 text-blue-700 rounded-full">87% Match</span>
+                    <span class="px-3 py-1 text-xs font-bold bg-blue-100 text-blue-700 rounded-full w-fit">87%
+                      Match</span>
                   </div>
                   <p class="text-sm font-medium text-gray-600">DataTech • Remoto</p>
                 </div>
               </div>
               <p class="text-sm text-gray-600 mb-4">Oportunidade para trabalhar com Python, Django e PostgreSQL em
                 projetos de grande escala.</p>
-              <div class="flex gap-2">
+              <div class="flex flex-col sm:flex-row gap-2">
                 <button
                   class="flex-1 bg-green-500 text-white text-sm font-semibold py-2.5 rounded-lg hover:bg-green-600 transition">
                   Candidatar-se
@@ -513,7 +552,7 @@
   </section>
 
   <!-- FOOTER -->
-  <footer class="bg-brand text-gray-300 py-12">
+  <footer class="bg-brand text-gray-300 py-12 mt-16">
     <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row md:justify-between gap-8">
       <div>
         <div class="flex items-center gap-3 mb-3">
@@ -522,8 +561,8 @@
             <h4 class="font-semibold text-white">Talent Portal</h4>
           </div>
         </div>
-        <p class="text-xs text-gray-400 max-w-sm">© 2025 Talent Portal. Todos os direitos reservados. Plataforma corporativa
-          de recrutamento assistido por IA.</p>
+        <p class="text-xs text-gray-400 max-w-sm">© 2025 Talent Portal. Todos os direitos reservados. Plataforma
+          corporativa de recrutamento assistido por IA.</p>
       </div>
       <div class="grid grid-cols-2 gap-8 text-sm">
         <div>

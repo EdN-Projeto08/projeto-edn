@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Dashboard Recrutador — Talent Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="images/talentportal.png" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script>
@@ -30,6 +31,12 @@
     }
   </script>
   <script>
+    // Toggle mobile menu
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
     // Função para abrir modal de agendamento
     function openScheduleModal(candidateName) {
       document.getElementById('candidate-name-modal').textContent = candidateName;
@@ -114,11 +121,11 @@
                   </div>
                 </div>
 
-                <div class="mt-4 flex gap-3">
+                <div class="mt-4 flex flex-col sm:flex-row gap-3">
                   <button onclick="closeScheduleModal()" class="flex-1 bg-green-500 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-green-600 transition">
                     ✓ Confirmar e Fechar
                   </button>
-                  <button class="px-4 border-2 border-gray-300 text-gray-600 font-semibold py-2.5 rounded-lg hover:border-gray-400 transition">
+                  <button class="flex-1 px-4 border-2 border-gray-300 text-gray-600 font-semibold py-2.5 rounded-lg hover:border-gray-400 transition">
                     📋 Copiar Detalhes
                   </button>
                 </div>
@@ -255,14 +262,17 @@
   <header class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-b border-gray-200 z-50">
     <div class="max-w-7xl mx-auto flex justify-between items-center h-16 px-6">
       <div class="flex items-center gap-3">
-        <div
-          class="w-10 h-10 bg-gradient-to-r from-gold to-yellow-400 rounded-lg flex items-center justify-center shadow-glow">
-          <span class="font-bold text-brand">TP</span>
-        </div>
-        <div>
+        <button type="button" onclick="window.location.href='index.html'"
+          class="flex items-center gap-3 hover:opacity-80 transition">
+          <div
+            class="w-10 h-10 bg-gradient-to-r from-gold to-yellow-400 rounded-lg flex items-center justify-center shadow-glow">
+            <span class="font-bold text-brand">TP</span>
+          </div>
           <h1 class="font-semibold text-brand leading-tight">Talent Portal</h1>
-        </div>
+        </button>
       </div>
+
+      <!-- Desktop Nav -->
       <nav class="hidden md:flex items-center gap-6 text-sm text-gray-600">
         <a href="index.html" class="hover:text-brand transition">Início</a>
         <a href="#dashboard" class="text-brand font-semibold">Dashboard</a>
@@ -278,25 +288,52 @@
           </div>
         </div>
       </nav>
+
+      <!-- Mobile Menu Button -->
+      <button type="button" onclick="toggleMobileMenu()" class="md:hidden text-brand" aria-label="Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+      <nav class="flex flex-col gap-2 p-4 text-sm text-gray-600">
+        <a href="index.html" class="text-left hover:text-brand py-2">Início</a>
+        <a href="#dashboard" class="text-left text-brand font-semibold py-2">Dashboard</a>
+        <a href="#vagas" class="text-left hover:text-brand py-2">Vagas</a>
+        <a href="#candidatos" class="text-left hover:text-brand py-2">Candidatos</a>
+        <div class="flex items-center gap-3 mt-3 pt-3 border-t border-gray-200">
+          <div class="w-8 h-8 bg-brand rounded-full flex items-center justify-center">
+            <span class="text-white text-xs font-bold">AC</span>
+          </div>
+          <div class="text-left">
+            <p class="text-xs font-semibold text-brand">Ana Costa</p>
+            <p class="text-xs text-gray-500">Recrutadora Sênior</p>
+          </div>
+        </div>
+      </nav>
     </div>
   </header>
 
   <!-- WELCOME SECTION -->
   <section class="pt-24 pb-8 px-6 bg-gradient-to-b from-white to-silver">
     <div class="max-w-7xl mx-auto">
-      <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div>
-          <h2 class="text-3xl md:text-4xl font-bold text-brand mb-2">Bem-vindo, Ana Costa</h2>
-          <p class="text-lg text-gray-600">Gerencie as vagas e entrevistas com inteligência artificial corporativa</p>
+          <h2 class="text-2xl md:text-4xl font-bold text-brand mb-2">Bem-vindo, Ana Costa</h2>
+          <p class="text-base md:text-lg text-gray-600">Gerencie as vagas e entrevistas com inteligência artificial
+            corporativa</p>
         </div>
-        <div class="flex gap-4">
-          <div class="bg-white rounded-2xl px-6 py-4 shadow-card">
+        <div class="flex flex-col sm:flex-row gap-4">
+          <div class="bg-white rounded-2xl px-4 sm:px-6 py-4 shadow-card">
             <div class="text-center">
               <p class="text-2xl font-bold text-brand">5</p>
               <p class="text-xs text-gray-500 mt-1">Entrevistas Agendadas</p>
             </div>
           </div>
-          <div class="bg-white rounded-2xl px-6 py-4 shadow-card">
+          <div class="bg-white rounded-2xl px-4 sm:px-6 py-4 shadow-card">
             <div class="text-center">
               <p class="text-2xl font-bold text-brand">3</p>
               <p class="text-xs text-gray-500 mt-1">Vagas Abertas</p>
@@ -306,14 +343,14 @@
       </div>
 
       <!-- STATS CARDS -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12">
         <div class="bg-white rounded-2xl p-6 shadow-card hover:shadow-hover transition">
           <div class="flex items-center justify-between mb-3">
             <div>
               <p class="text-sm font-medium text-gray-500">Vagas Ativas</p>
               <p class="text-3xl font-bold text-brand mt-1">8</p>
             </div>
-            <div class="w-12 h-12 bg-brand/10 rounded-xl flex items-center justify-center">
+            <div class="w-12 h-12 bg-brand/10 rounded-xl flex items-center justify-center flex-shrink-0">
               <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
@@ -330,7 +367,7 @@
               <p class="text-sm font-medium text-gray-500">Candidatos Novos</p>
               <p class="text-3xl font-bold text-brand mt-1">24</p>
             </div>
-            <div class="w-12 h-12 bg-gold/10 rounded-xl flex items-center justify-center">
+            <div class="w-12 h-12 bg-gold/10 rounded-xl flex items-center justify-center flex-shrink-0">
               <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
                 </path>
@@ -346,7 +383,7 @@
               <p class="text-sm font-medium text-gray-500">Em Entrevista</p>
               <p class="text-3xl font-bold text-brand mt-1">12</p>
             </div>
-            <div class="w-12 h-12 bg-yellow-50 rounded-xl flex items-center justify-center">
+            <div class="w-12 h-12 bg-yellow-50 rounded-xl flex items-center justify-center flex-shrink-0">
               <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -362,7 +399,7 @@
               <p class="text-sm font-medium text-gray-500">Taxa de Conversão</p>
               <p class="text-3xl font-bold text-brand mt-1">68<span class="text-xl">%</span></p>
             </div>
-            <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center">
+            <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center flex-shrink-0">
               <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -375,7 +412,7 @@
 
       <!-- VAGAS EM ANDAMENTO -->
       <div class="mb-12">
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
           <h3 class="text-2xl font-bold text-brand">Vagas em Andamento</h3>
           <select
             class="text-sm border-2 border-gray-200 rounded-lg px-4 py-2 font-medium focus:ring-2 focus:ring-gold focus:border-gold">
@@ -386,7 +423,7 @@
           </select>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           <!-- Vaga 1 -->
           <div class="bg-white rounded-2xl p-6 shadow-card hover:shadow-hover transition">
             <h3 class="text-lg font-semibold text-brand mb-1">Analista de Dados Sênior</h3>
@@ -461,136 +498,139 @@
 
       <!-- CANDIDATOS RECOMENDADOS PELA IA -->
       <div class="bg-white rounded-2xl shadow-card mb-12">
-        <div class="p-8 border-b border-gray-200">
-          <div class="flex items-center justify-between">
-            <div>
-              <h3 class="text-2xl font-bold text-brand flex items-center gap-3">
-                <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
-                  </path>
-                </svg>
-                Top 5 Candidatos — Analista de Dados
-              </h3>
-              <p class="text-sm text-gray-600 mt-2">Candidatos mais alinhados ao perfil da vaga, selecionados pela IA
-              </p>
-            </div>
+        <div class="p-6 md:p-8 border-b border-gray-200">
+          <div class="flex flex-col gap-2">
+            <h3 class="text-xl md:text-2xl font-bold text-brand flex items-start md:items-center gap-2 md:gap-3">
+              <svg class="w-6 md:w-8 h-6 md:h-8 text-gold flex-shrink-0" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+                </path>
+              </svg>
+              <span>Top 5 Candidatos — Analista de Dados</span>
+            </h3>
+            <p class="text-sm text-gray-600 mt-2">Candidatos mais alinhados ao perfil da vaga, selecionados pela IA</p>
           </div>
         </div>
 
-        <div class="p-8">
-          <ul class="divide-y divide-gray-200">
+        <div class="p-6 md:p-8 overflow-x-auto">
+          <ul class="divide-y divide-gray-200 space-y-4 md:space-y-0">
             <!-- Candidato 1 -->
-            <li class="py-5 flex justify-between items-center hover:bg-silver/50 px-4 -mx-4 rounded-lg transition">
-              <div class="flex items-center gap-4 flex-1">
+            <li
+              class="py-4 md:py-5 flex flex-col md:flex-row md:justify-between md:items-center gap-4 hover:bg-silver/50 px-4 -mx-4 rounded-lg transition">
+              <div class="flex items-center gap-4 flex-1 min-w-0">
                 <div class="w-12 h-12 bg-brand rounded-full flex items-center justify-center flex-shrink-0">
                   <span class="text-white font-bold">JR</span>
                 </div>
-                <div class="flex-1">
-                  <p class="font-semibold text-brand text-lg">João Ribeiro</p>
-                  <p class="text-sm text-gray-600 mb-2">5 anos exp. • Python, SQL, Tableau</p>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-brand text-lg truncate">João Ribeiro</p>
+                  <p class="text-sm text-gray-600 mb-2 truncate">5 anos exp. • Python, SQL, Tableau</p>
                   <div class="flex items-center gap-2">
                     <div class="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
                       <div class="bg-green-500 h-full rounded-full" style="width: 92%"></div>
                     </div>
-                    <span class="text-sm font-bold text-green-600">92%</span>
+                    <span class="text-sm font-bold text-green-600 flex-shrink-0">92%</span>
                   </div>
                 </div>
               </div>
               <button onclick="openScheduleModal('João Ribeiro')"
-                class="ml-4 bg-brand text-white text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-opacity-90 shadow-card hover:shadow-hover transition whitespace-nowrap">
+                class="w-full md:w-auto bg-brand text-white text-sm font-semibold px-4 md:px-6 py-2.5 rounded-lg hover:bg-opacity-90 shadow-card hover:shadow-hover transition whitespace-nowrap">
                 Agendar Entrevista
               </button>
             </li>
 
             <!-- Candidato 2 -->
-            <li class="py-5 flex justify-between items-center hover:bg-silver/50 px-4 -mx-4 rounded-lg transition">
-              <div class="flex items-center gap-4 flex-1">
+            <li
+              class="py-4 md:py-5 flex flex-col md:flex-row md:justify-between md:items-center gap-4 hover:bg-silver/50 px-4 -mx-4 rounded-lg transition">
+              <div class="flex items-center gap-4 flex-1 min-w-0">
                 <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center flex-shrink-0">
                   <span class="text-brand font-bold">MS</span>
                 </div>
-                <div class="flex-1">
-                  <p class="font-semibold text-brand text-lg">Maria Santos</p>
-                  <p class="text-sm text-gray-600 mb-2">7 anos exp. • R, Python, Power BI</p>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-brand text-lg truncate">Maria Santos</p>
+                  <p class="text-sm text-gray-600 mb-2 truncate">7 anos exp. • R, Python, Power BI</p>
                   <div class="flex items-center gap-2">
                     <div class="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
                       <div class="bg-green-500 h-full rounded-full" style="width: 89%"></div>
                     </div>
-                    <span class="text-sm font-bold text-green-600">89%</span>
+                    <span class="text-sm font-bold text-green-600 flex-shrink-0">89%</span>
                   </div>
                 </div>
               </div>
               <button onclick="openScheduleModal('Maria Santos')"
-                class="ml-4 bg-brand text-white text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-opacity-90 shadow-card hover:shadow-hover transition whitespace-nowrap">
+                class="w-full md:w-auto bg-brand text-white text-sm font-semibold px-4 md:px-6 py-2.5 rounded-lg hover:bg-opacity-90 shadow-card hover:shadow-hover transition whitespace-nowrap">
                 Agendar Entrevista
               </button>
             </li>
 
             <!-- Candidato 3 -->
-            <li class="py-5 flex justify-between items-center hover:bg-silver/50 px-4 -mx-4 rounded-lg transition">
-              <div class="flex items-center gap-4 flex-1">
+            <li
+              class="py-4 md:py-5 flex flex-col md:flex-row md:justify-between md:items-center gap-4 hover:bg-silver/50 px-4 -mx-4 rounded-lg transition">
+              <div class="flex items-center gap-4 flex-1 min-w-0">
                 <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
                   <span class="text-white font-bold">CA</span>
                 </div>
-                <div class="flex-1">
-                  <p class="font-semibold text-brand text-lg">Carlos Almeida</p>
-                  <p class="text-sm text-gray-600 mb-2">4 anos exp. • SQL, Excel, Python</p>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-brand text-lg truncate">Carlos Almeida</p>
+                  <p class="text-sm text-gray-600 mb-2 truncate">4 anos exp. • SQL, Excel, Python</p>
                   <div class="flex items-center gap-2">
                     <div class="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
                       <div class="bg-yellow-500 h-full rounded-full" style="width: 85%"></div>
                     </div>
-                    <span class="text-sm font-bold text-yellow-600">85%</span>
+                    <span class="text-sm font-bold text-yellow-600 flex-shrink-0">85%</span>
                   </div>
                 </div>
               </div>
               <button onclick="openScheduleModal('Carlos Almeida')"
-                class="ml-4 bg-brand text-white text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-opacity-90 shadow-card hover:shadow-hover transition whitespace-nowrap">
+                class="w-full md:w-auto bg-brand text-white text-sm font-semibold px-4 md:px-6 py-2.5 rounded-lg hover:bg-opacity-90 shadow-card hover:shadow-hover transition whitespace-nowrap">
                 Agendar Entrevista
               </button>
             </li>
 
             <!-- Candidato 4 -->
-            <li class="py-5 flex justify-between items-center hover:bg-silver/50 px-4 -mx-4 rounded-lg transition">
-              <div class="flex items-center gap-4 flex-1">
+            <li
+              class="py-4 md:py-5 flex flex-col md:flex-row md:justify-between md:items-center gap-4 hover:bg-silver/50 px-4 -mx-4 rounded-lg transition">
+              <div class="flex items-center gap-4 flex-1 min-w-0">
                 <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
                   <span class="text-white font-bold">AF</span>
                 </div>
-                <div class="flex-1">
-                  <p class="font-semibold text-brand text-lg">Ana Ferreira</p>
-                  <p class="text-sm text-gray-600 mb-2">6 anos exp. • Python, Pandas, Spark</p>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-brand text-lg truncate">Ana Ferreira</p>
+                  <p class="text-sm text-gray-600 mb-2 truncate">6 anos exp. • Python, Pandas, Spark</p>
                   <div class="flex items-center gap-2">
                     <div class="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
                       <div class="bg-yellow-500 h-full rounded-full" style="width: 82%"></div>
                     </div>
-                    <span class="text-sm font-bold text-yellow-600">82%</span>
+                    <span class="text-sm font-bold text-yellow-600 flex-shrink-0">82%</span>
                   </div>
                 </div>
               </div>
               <button onclick="openScheduleModal('Ana Ferreira')"
-                class="ml-4 bg-brand text-white text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-opacity-90 shadow-card hover:shadow-hover transition whitespace-nowrap">
+                class="w-full md:w-auto bg-brand text-white text-sm font-semibold px-4 md:px-6 py-2.5 rounded-lg hover:bg-opacity-90 shadow-card hover:shadow-hover transition whitespace-nowrap">
                 Agendar Entrevista
               </button>
             </li>
 
             <!-- Candidato 5 -->
-            <li class="py-5 flex justify-between items-center hover:bg-silver/50 px-4 -mx-4 rounded-lg transition">
-              <div class="flex items-center gap-4 flex-1">
+            <li
+              class="py-4 md:py-5 flex flex-col md:flex-row md:justify-between md:items-center gap-4 hover:bg-silver/50 px-4 -mx-4 rounded-lg transition">
+              <div class="flex items-center gap-4 flex-1 min-w-0">
                 <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
                   <span class="text-white font-bold">RL</span>
                 </div>
-                <div class="flex-1">
-                  <p class="font-semibold text-brand text-lg">Rafael Lima</p>
-                  <p class="text-sm text-gray-600 mb-2">3 anos exp. • Python, SQL, Looker</p>
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-brand text-lg truncate">Rafael Lima</p>
+                  <p class="text-sm text-gray-600 mb-2 truncate">3 anos exp. • Python, SQL, Looker</p>
                   <div class="flex items-center gap-2">
                     <div class="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
                       <div class="bg-yellow-500 h-full rounded-full" style="width: 78%"></div>
                     </div>
-                    <span class="text-sm font-bold text-yellow-600">78%</span>
+                    <span class="text-sm font-bold text-yellow-600 flex-shrink-0">78%</span>
                   </div>
                 </div>
               </div>
               <button onclick="openScheduleModal('Rafael Lima')"
-                class="ml-4 bg-brand text-white text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-opacity-90 shadow-card hover:shadow-hover transition whitespace-nowrap">
+                class="w-full md:w-auto bg-brand text-white text-sm font-semibold px-4 md:px-6 py-2.5 rounded-lg hover:bg-opacity-90 shadow-card hover:shadow-hover transition whitespace-nowrap">
                 Agendar Entrevista
               </button>
             </li>
@@ -599,10 +639,10 @@
       </div>
 
       <!-- PAINEL DE MÉTRICAS -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-12">
         <!-- Métricas de Recrutamento -->
-        <div class="bg-white rounded-2xl p-8 shadow-card hover:shadow-hover transition">
-          <h4 class="text-xl font-bold text-brand mb-6 flex items-center gap-2">
+        <div class="bg-white rounded-2xl p-6 md:p-8 shadow-card hover:shadow-hover transition">
+          <h4 class="text-lg md:text-xl font-bold text-brand mb-6 flex items-center gap-2">
             <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
@@ -611,7 +651,8 @@
             Métricas de Recrutamento
           </h4>
 
-          <div class="h-64 bg-gradient-to-br from-gold/20 via-brand/10 to-silver rounded-2xl p-4 shadow-inner mb-6">
+          <div
+            class="h-48 md:h-64 bg-gradient-to-br from-gold/20 via-brand/10 to-silver rounded-2xl p-4 shadow-inner mb-6 w-full">
             <canvas id="recruitmentChart"></canvas>
           </div>
 
@@ -628,8 +669,8 @@
         </div>
 
         <!-- Taxa de Sucesso por Área -->
-        <div class="bg-white rounded-2xl p-8 shadow-card hover:shadow-hover transition">
-          <h4 class="text-xl font-bold text-brand mb-6 flex items-center gap-2">
+        <div class="bg-white rounded-2xl p-6 md:p-8 shadow-card hover:shadow-hover transition">
+          <h4 class="text-lg md:text-xl font-bold text-brand mb-6 flex items-center gap-2">
             <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
@@ -639,7 +680,7 @@
             Taxa de Sucesso por Área
           </h4>
 
-          <div class="space-y-4">
+          <div class="space-y-4 max-h-80 overflow-y-auto">
             <div>
               <div class="flex justify-between mb-2">
                 <span class="text-sm font-medium text-gray-700">Tecnologia</span>
@@ -706,16 +747,17 @@
   <div id="schedule-modal"
     class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-      <div class="p-8 border-b border-gray-200">
-        <div class="flex items-center justify-between">
-          <h3 class="text-2xl font-bold text-brand flex items-center gap-3">
-            <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="p-6 md:p-8 border-b border-gray-200">
+        <div class="flex items-start justify-between gap-4">
+          <h3 class="text-xl md:text-2xl font-bold text-brand flex items-center gap-2 md:gap-3 flex-1">
+            <svg class="w-6 md:w-8 h-6 md:h-8 text-gold flex-shrink-0" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
             </svg>
-            Assistente de Agendamento com IA
+            <span>Assistente de Agendamento</span>
           </h3>
-          <button onclick="closeScheduleModal()" class="text-gray-400 hover:text-gray-600 transition">
+          <button onclick="closeScheduleModal()" class="text-gray-400 hover:text-gray-600 transition flex-shrink-0">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
@@ -723,7 +765,7 @@
         </div>
       </div>
 
-      <div class="p-8 space-y-6">
+      <div class="p-6 md:p-8 space-y-6">
         <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg">
           <p class="text-sm text-blue-800">
             <strong>🤖 IA:</strong> Quais são as melhores datas e horários disponíveis para entrevistar <strong
